@@ -1,0 +1,41 @@
+/*
+Error: Invalid GBK character "\xE4"
+        on line 1 of App.scss
+
+1: // 仅支持 chrome 滚动条样式
+2: 
+3: /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*\/
+4: ::-webkit-scrollbar {
+5:   width: 5px;
+6:   background-color: #fff;
+
+Backtrace:
+App.scss:1
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/util.rb:1041:in `rescue in block in find_encoding_error'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/util.rb:1038:in `block in find_encoding_error'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/util.rb:1037:in `each'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/util.rb:1037:in `each_with_index'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/util.rb:1037:in `find_encoding_error'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/util.rb:765:in `check_sass_encoding'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/engine.rb:444:in `check_encoding!'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/engine.rb:400:in `_to_tree'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/engine.rb:307:in `render_with_sourcemap'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/plugin/compiler.rb:462:in `update_stylesheet'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/plugin/compiler.rb:209:in `each'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/plugin.rb:82:in `update_stylesheets'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/exec/sass_scss.rb:338:in `watch_or_update'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/exec/sass_scss.rb:51:in `process_result'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/exec/base.rb:50:in `parse'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/lib/sass/exec/base.rb:18:in `parse!'
+D:/xxd/soft/usesoft/Ruby24/lib/ruby/gems/2.4.0/gems/sass-3.5.7/bin/scss:13:in `<top (required)>'
+D:/xxd/soft/usesoft/Ruby24/bin/scss:23:in `load'
+D:/xxd/soft/usesoft/Ruby24/bin/scss:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: 'Error: Invalid GBK character "\xE4"\A         on line 1 of App.scss\A \A 1: // 仅支持 chrome 滚动条样式\A 2: \A 3: /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/\A 4: ::-webkit-scrollbar {\A 5:   width: 5px;\A 6:   background-color: #fff;';
+}

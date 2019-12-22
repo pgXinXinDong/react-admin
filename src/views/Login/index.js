@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Layout, Divider, Form, Input, Icon, Button } from "antd";
+import {
+  Layout,
+  Divider,
+  Form,
+  Input,
+  Icon,
+  Button,
+  notification,
+  message
+} from "antd";
 import "@/style/view-style/login.scss";
 
 class Login extends Component {
@@ -20,7 +29,6 @@ class Login extends Component {
       (errors, values) => {
         if (errors) return;
 
-        console.log("values", values);
         switch (values.username) {
           case "admin":
             values.auth = 0;
@@ -30,9 +38,24 @@ class Login extends Component {
 
         localStorage.setItem("user", JSON.stringify(values));
         this.enterLoading();
+        this.timer = setTimeout(() => {
+          message.loading("正在登录", 1).then(() => {
+            this.props.history.push("/");
+            clearTimeout(this.timer);
+          });
+        }, 1000);
       }
     );
   };
+
+  componentDidMount() {
+    notification.open({
+      message: "欢迎使用后台管理系统",
+      duration: null,
+      description: "账号 admin(管理员) 其他(游客) 密码随意"
+    });
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
