@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import { withRouter, Link } from "react-router-dom";
 import { Menu, Icon } from "antd";
 const { SubMenu } = Menu;
 const Item = Menu.Item;
 
 class CustomMenu extends Component {
+  componentDidMount() {
+    console.log(1111, this.props);
+  }
+
   getMenu = menu => {
     if (menu.length > 0) {
       return menu.map(item => {
@@ -24,8 +29,10 @@ class CustomMenu extends Component {
         } else {
           return (
             <Item key={item.key}>
-              <Icon type={item.icon} />
-              {item.title}
+              <Link to={item.key}>
+                <Icon type={item.icon} />
+                <span>{item.title}</span>
+              </Link>
             </Item>
           );
         }
@@ -45,4 +52,4 @@ class CustomMenu extends Component {
   }
 }
 
-export default CustomMenu;
+export default withRouter(CustomMenu);

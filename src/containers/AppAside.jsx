@@ -1,12 +1,19 @@
 import React from "react";
 import { Layout, Icon } from "antd";
+import PropTypes from "prop-types";
+
 import CustomMenu from "../components/CustomMenu";
 const { Sider } = Layout;
 
 const AppAside = props => {
-  const { menuToggle, menu } = props;
+  const { menuToggle, menu, menuClick } = props;
   return (
-    <Sider className="aside" collapsed={menuToggle}>
+    <Sider
+      className="aside"
+      collapsible
+      collapsed={menuToggle}
+      onCollapse={menuClick}
+    >
       <div className="logo">
         <a
           rel="noopener noreferrer"
@@ -21,4 +28,8 @@ const AppAside = props => {
   );
 };
 
+AppAside.propTypes = {
+  menuToggle: PropTypes.bool,
+  menu: PropTypes.array.isRequired
+};
 export default AppAside;

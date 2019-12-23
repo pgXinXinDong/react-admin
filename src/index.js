@@ -10,6 +10,4 @@ const AppView = (
   </Provider>
 );
 
-console.log("store", store.getState());
-
 ReactDOM.render(AppView, document.getElementById("root"));

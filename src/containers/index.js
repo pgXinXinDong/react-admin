@@ -1,16 +1,23 @@
 import React, { Component } from "react";
+import { Route, Redirect } from "react-router-dom";
 import { Layout } from "antd";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import AppAside from "./AppAside";
 import menu from "./menu";
 import "@/style/layout.scss";
+import { menuToggleAction } from "@/store/actionCreators";
+
+import routers from "@/routes";
+import AppAside from "./AppAside";
+import AppHeader from "./AppHeader";
+
+import avatar from "@/assets/images/user.jpg";
 
 const { Header, Footer, Sider, Content } = Layout;
 
 class DefluatLayout extends Component {
   state = {
-    menu: []
+    menu: [],
+    avatar: avatar
   };
   componentDidMount() {
     this.isLogin();
@@ -42,10 +49,49 @@ class DefluatLayout extends Component {
     }
   };
   render() {
-    let { menuToggle } = this.props;
+    let { menuToggle, menuClick } = this.props;
+    let { auth } = JSON.parse(localStorage.getItem("user"))
+      ? JSON.parse(localStorage.getItem("user"))
+      : "";
     return (
       <Layout className="app">
-        <AppAside menuToggle={menuToggle} menu={this.state.menu}></AppAside>
+        <AppAside
+          menuToggle={menuToggle}
+          menuClick={menuClick}
+          menu={this.state.menu}
+        ></AppAside>
+        <Layout
+          style={{
+            marginLeft: menuToggle ? "80px" : "200px",
+            minHeight: "100vh"
+          }}
+        >
+          <AppHeader
+            avatar={this.state.avatar}
+            menuToggle={menuToggle}
+            menuClick={menuClick}
+          ></AppHeader>
+          <Content>
+            {routers.map(item => {
+              return (
+                <Route
+                  key={item.path}
+                  path={item.path}
+                  exact={item.exact}
+                  render={props =>
+                    !auth ? (
+                      <item.component />
+                    ) : item.auth && item.auth.indexOf(auth) !== -1 ? (
+                      <item.component />
+                    ) : (
+                      <Redirect to="404" {...props} />
+                    )
+                  }
+                ></Route>
+              );
+            })}
+          </Content>
+        </Layout>
       </Layout>
     );
   }
@@ -59,7 +105,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     menuClick: function() {
-      console.log(dispatch);
+      console.log();
+      dispatch(menuToggleAction());
     }
   };
 }
