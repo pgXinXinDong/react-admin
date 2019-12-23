@@ -32,10 +32,10 @@ class Login extends Component {
         switch (values.username) {
           case "admin":
             values.auth = 0;
+            break;
           default:
             values.auth = 1;
         }
-
         localStorage.setItem("user", JSON.stringify(values));
         this.enterLoading();
         this.timer = setTimeout(() => {

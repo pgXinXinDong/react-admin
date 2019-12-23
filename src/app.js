@@ -7,7 +7,8 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-
+import "./style/base.scss";
+import "./style/App.scss";
 const DefluatLayout = loadable(() => import("./containers"));
 
 class App extends React.Component {
