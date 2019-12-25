@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, message, BackTop } from "antd";
 import { connect } from "react-redux";
 import menu from "./menu";
 import "@/style/layout.scss";
@@ -9,6 +9,7 @@ import { menuToggleAction } from "@/store/actionCreators";
 import routers from "@/routes";
 import AppAside from "./AppAside";
 import AppHeader from "./AppHeader";
+import AppFooter from "./AppFooter";
 
 import avatar from "@/assets/images/user.jpg";
 
@@ -22,6 +23,11 @@ class DefluatLayout extends Component {
   componentDidMount() {
     this.isLogin();
   }
+  loginOut = () => {
+    localStorage.clear("user");
+    this.props.history.push("/login");
+    message.success("成功退出");
+  };
 
   isLogin = () => {
     if (!localStorage.getItem("user")) {
@@ -55,10 +61,12 @@ class DefluatLayout extends Component {
       : "";
     return (
       <Layout className="app">
+        <BackTop />
         <AppAside
           menuToggle={menuToggle}
           menuClick={menuClick}
           menu={this.state.menu}
+          loginOut={this.loginOut}
         ></AppAside>
         <Layout
           style={{
@@ -70,6 +78,7 @@ class DefluatLayout extends Component {
             avatar={this.state.avatar}
             menuToggle={menuToggle}
             menuClick={menuClick}
+            loginOut={this.loginOut}
           ></AppHeader>
           <Content>
             {routers.map(item => {
@@ -91,6 +100,7 @@ class DefluatLayout extends Component {
               );
             })}
           </Content>
+          <AppFooter />
         </Layout>
       </Layout>
     );

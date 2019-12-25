@@ -5,31 +5,31 @@ import { Layout, Menu, Icon, Dropdown, Avatar, Badge } from "antd";
 const Item = Menu.Item;
 const { Header } = Layout;
 
-const menu = (
-  <Menu>
-    <Menu.ItemGroup title="用户设置">
+const AppHeader = props => {
+  const { avatar, menuToggle, menuClick, loginOut } = props;
+  const menu = (
+    <Menu>
+      <Menu.ItemGroup title="用户设置">
+        <Menu.Divider />
+        <Item>
+          <Icon type="edit" />
+          个人设置
+        </Item>
+        <Item>
+          <Icon type="setting" theme="filled" />
+          系统设置
+        </Item>
+      </Menu.ItemGroup>
       <Menu.Divider />
       <Item>
-        <Icon type="edit" />
-        个人设置
+        <span onClick={loginOut}>
+          <Icon type="logout" />
+          退出登录
+        </span>
       </Item>
-      <Item>
-        <Icon type="setting" theme="filled" />
-        系统设置
-      </Item>
-    </Menu.ItemGroup>
-    <Menu.Divider />
-    <Item>
-      <span>
-        <Icon type="logout" />
-        退出登录
-      </span>
-    </Item>
-  </Menu>
-);
+    </Menu>
+  );
 
-const AppHeader = props => {
-  const { avatar, menuToggle, menuClick } = props;
   return (
     <Header className="header">
       <div className="left">
