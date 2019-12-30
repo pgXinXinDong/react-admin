@@ -9,10 +9,16 @@ import {
   Button,
   Checkbox,
   Col,
+  Switch,
   Row,
   InputNumber,
   DatePicker,
-  AutoComplete
+  AutoComplete,
+  Cascader,
+  Select,
+  Rate,
+  Slider,
+  Upload
 } from "antd";
 
 const { Item } = Form;
@@ -20,28 +26,76 @@ const formItemLayout = {
   labelCol: { span: 4, offset: 5 },
   wrapperCol: { span: 8 }
 };
+const { Option } = Select;
+
+const options = [
+  {
+    value: "sichuan",
+    label: "四川",
+    children: [
+      {
+        value: "chengdu",
+        label: "成都",
+        children: [
+          {
+            value: "gaoxin",
+            label: "高新区"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    value: "gansu",
+    label: "甘肃",
+    children: [
+      {
+        value: "lanzhou",
+        label: "兰州",
+        children: [
+          {
+            value: "anning",
+            label: "安宁区"
+          }
+        ]
+      }
+    ]
+  }
+];
 
 const formTailLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 8, offset: 10 }
 };
 
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 16,
+      offset: 0
+    },
+    sm: {
+      span: 10,
+      offset: 6
+    }
+  }
+};
 const AutoCompleteOption = AutoComplete.Option;
 
 class FromView extends Component {
   state = {
     autoCompleteResult: [],
-    confirmDirty: false
+    confirmDirty: false,
+    options: options
   };
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, value) => {
-      // console.log("value",value)
+      console.log(`${value}`, value);
     });
   };
   //邮箱自动填充功能
   handleWebsiteChange = value => {
-    console.log(value);
     var autoCompleteResult;
     if (!value) {
       autoCompleteResult = [];
@@ -68,19 +122,61 @@ class FromView extends Component {
     const { form } = this.props;
     if (value && value !== form.getFieldValue("password")) {
       callback("密码不一致");
+    } else {
+      callback();
     }
   };
   handleConfirmBlur = e => {
     const { value } = e.target;
-    console.log(!!value);
-    console.log({ confirmDirty: this.state.confirmDirty || !!value });
+    this.setState({
+      confirmDirty: this.state.confirmDirty || !!value
+    });
+  };
+  onChange = (value, selectedOptions) => {
+    console.log(value, selectedOptions);
+  };
+  normFile = e => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
+  validatePhone = (rule, value, callback) => {
+    const { form } = this.props;
+    const zone = form.getFieldValue("prefix");
+    if (form.getFieldValue("phone")) {
+      const phone = form.getFieldValue("phone");
+      switch (zone) {
+        case "86":
+          if (/^[1][3,4,5,7,8][0-9]{9}$/.test(phone)) {
+            callback();
+          } else {
+            callback("手机号不符合验证规则");
+          }
+          break;
+        default:
+          callback("请输入对应的手机号");
+          break;
+      }
+    }
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator, getFieldValue } = this.props.form;
     const websiteOptions = this.state.autoCompleteResult.map(website => (
       <AutoCompleteOption key={website}> {website} </AutoCompleteOption>
     ));
+    const prefixSelector = getFieldDecorator("prefix", {
+      initialValue: "86"
+    })(
+      <Select style={{ width: 70 }}>
+        <Option value="86">+86</Option>
+        <Option value="87">+87</Option>
+      </Select>
+    );
+
     return (
       <Layout>
         <Form onSubmit={this.handleSubmit} {...formItemLayout}>
@@ -168,21 +264,15 @@ class FromView extends Component {
               </AutoComplete>
             )}
           </Item>
-          <Item label="密码">
+          <Item label="密码" hasFeedback>
             {getFieldDecorator("password", {
               rules: [
                 { required: true, message: "请输入密码!" },
                 { validator: this.validateToNextPassword }
               ]
-            })(
-              <Input.Password
-                placeholder="请输入密码"
-                onBlur={this.handleConfirmBlur}
-              />
-            )}
+            })(<Input.Password placeholder="请输入密码" />)}
           </Item>
-
-          <Item label="确认密码">
+          <Item label="确认密码" hasFeedback>
             {getFieldDecorator("confirm", {
               rules: [
                 {
@@ -193,8 +283,86 @@ class FromView extends Component {
                   validator: this.compareToFirstPassword
                 }
               ]
-            })(<Input.Password placeholder="请确认密码" />)}
+            })(
+              <Input.Password
+                placeholder="请确认密码"
+                onBlur={this.handleConfirmBlur}
+              />
+            )}
           </Item>
+          <Item label="地址">
+            {getFieldDecorator("address", {
+              rules: [
+                {
+                  required: true,
+                  type: "array",
+                  message: "请输入你的地址"
+                }
+              ],
+              initialValue: ["sichuan", "chengdu", "gaoxin"]
+            })(
+              <Cascader
+                options={this.state.options}
+                placeholder={"请输入你的地址"}
+                onChange={this.onChange}
+              />
+            )}
+          </Item>
+          <Item label="电话">
+            {getFieldDecorator("phone", {
+              rules: [
+                {
+                  required: true,
+                  message: "请输入你的手机号",
+                  validator: this.validatePhone
+                }
+              ]
+            })(<Input addonBefore={prefixSelector} />)}
+          </Item>
+
+          <Item label="评价" extra="这个项目怎样">
+            {getFieldDecorator("rate", {
+              initialValue: 3.5
+            })(<Rate />)}
+          </Item>
+
+          <Item label="Upload" extra="longgggggggggggggggggggggggggggggggggg">
+            {getFieldDecorator("upload", {
+              valuePropName: "fileList",
+              getValueFromEvent: this.normFile
+            })(
+              <Upload
+                name="logo"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                listType="picture"
+              >
+                <Button>
+                  <Icon type="upload" /> Click to upload
+                </Button>
+              </Upload>
+            )}
+          </Item>
+          <Form.Item label="switch">
+            {getFieldDecorator("switch", {
+              valuePropName: "checked",
+              initialValue: true
+            })(<Switch />)}
+          </Form.Item>
+          <Form.Item label="slider">
+            {getFieldDecorator("slider", {
+              initialValue: 30
+            })(<Slider disabled={getFieldValue("switch") ? false : true} />)}
+          </Form.Item>
+          <Form.Item {...tailFormItemLayout}>
+            {getFieldDecorator("agreement", {
+              valuePropName: "checked"
+            })(
+              <Checkbox>
+                阅读并理解 <a href="https://github.com/ltadpoles">此协议</a>
+              </Checkbox>
+            )}
+          </Form.Item>
+
           <Item {...formTailLayout}>
             <Button type="primary" htmlType="submit">
               提交
