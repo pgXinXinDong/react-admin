@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import "./style/base.scss";
 import "./style/App.scss";
+import "animate.css";
 const DefluatLayout = loadable(() => import("./containers"));
 
 class App extends React.Component {

@@ -2,7 +2,10 @@ import loadable from "@/utils/loadable";
 
 //引入组件
 const Index = loadable(() => import("@/views/index"));
+
+//表单
 const FormBaseView = loadable(() => import("@/views/FormView/FormBaseView"));
+const FormStepView = loadable(() => import("@/views/FormView/FormStepView"));
 
 // 导航
 const DropdownView = loadable(() =>
@@ -22,6 +25,12 @@ const routes = [
     exact: false,
     name: "表单",
     component: FormBaseView
+  },
+  {
+    path: "/form/step-form",
+    exact: false,
+    name: "表单",
+    component: FormStepView
   }
 ];
 

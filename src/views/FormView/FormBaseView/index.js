@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import CustomBreadcrumb from "@/components/CustomBreadcrumb/CustomBreadcrumb";
 import {
   Layout,
   Form,
@@ -178,7 +179,8 @@ class FromView extends Component {
     );
 
     return (
-      <Layout>
+      <Layout class="fadeIn animated">
+        <CustomBreadcrumb arr={["表单", "基础表单"]} />
         <Form onSubmit={this.handleSubmit} {...formItemLayout}>
           <Item
             label={

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { Layout, message, BackTop } from "antd";
 import { connect } from "react-redux";
 import menu from "./menu";
@@ -80,25 +80,27 @@ class DefluatLayout extends Component {
             menuClick={menuClick}
             loginOut={this.loginOut}
           ></AppHeader>
-          <Content>
-            {routers.map(item => {
-              return (
-                <Route
-                  key={item.path}
-                  path={item.path}
-                  exact={item.exact}
-                  render={props =>
-                    !auth ? (
-                      <item.component />
-                    ) : item.auth && item.auth.indexOf(auth) !== -1 ? (
-                      <item.component />
-                    ) : (
-                      <Redirect to="404" {...props} />
-                    )
-                  }
-                ></Route>
-              );
-            })}
+          <Content className="content">
+            <Switch>
+              {routers.map(item => {
+                return (
+                  <Route
+                    key={item.path}
+                    path={item.path}
+                    exact={item.exact}
+                    render={props =>
+                      !auth ? (
+                        <item.component />
+                      ) : item.auth && item.auth.indexOf(auth) !== -1 ? (
+                        <item.component />
+                      ) : (
+                        <Redirect to="404" {...props} />
+                      )
+                    }
+                  ></Route>
+                );
+              })}
+            </Switch>
           </Content>
           <AppFooter />
         </Layout>

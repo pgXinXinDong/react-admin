@@ -10,7 +10,6 @@ const CustomBreadcrumb = props => (
       <Link to="/index">首页</Link>
     </Breadcrumb.Item>
     {props.arr.map(res => {
-      console.log("res", res);
       if (typeof res === "object") {
         return (
           <Breadcrumb.Item key={res.path}>
