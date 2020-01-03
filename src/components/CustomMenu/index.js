@@ -5,8 +5,48 @@ const { SubMenu } = Menu;
 const Item = Menu.Item;
 
 class CustomMenu extends Component {
+  state = {
+    openKeys: [],
+    selectedKeys: []
+  };
+  getOpenKeys = string => {
+    let newArr = [];
+    let arr = string.split("/").map(i => "/" + i);
+    newArr.push(arr[1]);
+
+    return newArr;
+  };
+
+  handelItemClick = key => {
+    //点击首页时 关闭其他子菜单
+    if (key == "/index") {
+      this.setState({
+        openKeys: null
+      });
+    }
+    this.setState({
+      selectedKeys: [key]
+    });
+  };
+
+  onOpenChange = key => {
+    //点击自己关闭 此时key = []
+    if (key.length === 0) {
+      this.setState({
+        openKeys: undefined
+      });
+    }
+    this.setState({
+      openKeys: [key[key.length - 1]]
+    });
+  };
+
   componentDidMount() {
-    console.log(1111, this.props);
+    let { pathname } = this.props.location;
+    this.setState({
+      openKeys: this.getOpenKeys(pathname),
+      selectedKeys: [pathname]
+    });
   }
 
   getMenu = menu => {
@@ -44,8 +84,16 @@ class CustomMenu extends Component {
 
   render() {
     const menu = this.props.menu;
+    const { selectedKeys, openKeys } = this.state;
     return (
-      <Menu mode={"inline"} theme={"dark"}>
+      <Menu
+        mode={"inline"}
+        theme={"dark"}
+        openKeys={openKeys}
+        selectedKeys={selectedKeys}
+        onClick={({ key }) => this.handelItemClick(key)}
+        onOpenChange={key => this.onOpenChange(key)}
+      >
         {this.props.menu && this.getMenu(menu)}
       </Menu>
     );

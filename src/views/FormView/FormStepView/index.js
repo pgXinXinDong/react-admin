@@ -3,6 +3,7 @@ import { Layout, Divider, Steps, Row, Col, Button, message } from "antd";
 import CustomBreadcrumb from "@/components/CustomBreadcrumb/CustomBreadcrumb";
 import StepForm1 from "./stepForm1";
 import StepForm2 from "./stepForm2";
+import StepForm3 from "./stepForm3";
 const { Step } = Steps;
 const steps = [
   {
@@ -94,6 +95,11 @@ class Index extends Component {
                     tailFormItemLayout={tailFormItemLayout}
                     setCurrent={this.setCurrent}
                   />
+                </div>
+              )}
+              {current === 2 && (
+                <div style={{ marginTop: "20px" }}>
+                  <StepForm3 setCurrent={this.setCurrent} />
                 </div>
               )}
             </Col>

@@ -35,6 +35,12 @@ class StepForm2 extends Component {
           >
             发送
           </Button>
+          <Button
+            style={{ marginLeft: "20px" }}
+            onClick={() => this.props.setCurrent(0)}
+          >
+            上一步
+          </Button>
         </Form.Item>
       </Form>
     );
